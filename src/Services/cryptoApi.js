@@ -7,7 +7,7 @@ const cryptoHeaders = {
 };
 
 //   rapid api base url
-const baseUrl = "https://coinranking1.p.rapidapi.com";
+const baseUrl = import.meta.env.VITE_REACT_APP_CRYPTO_BASE_URL;
 
 // to access api data we need to pass headers with url.
 // so, this function will take headers as obj and url
@@ -20,7 +20,8 @@ export const cryptoApi = createApi({
   endpoints: (builder) => ({
     getCoins: builder.query({
       // to access api data we need to pass headers with url
-      query: () => createRequest("/coins"),
+      // if user request from home page then api will show top 10 data,otherwise it will all because other component doessn't have condition value
+      query: (count) => createRequest(`/coins?limit=${count}`),
     }),
   }),
 });

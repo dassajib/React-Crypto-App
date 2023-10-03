@@ -6,7 +6,8 @@ import CryptoCoins from "../CryptoCoins/CryptoCoins";
 import News from "../News/News";
 
 const Home = () => {
-  const { data, isFetching } = useGetCoinsQuery();
+  const cryptoItemRender = import.meta.env.VITE_REACT_APP_FRONT_PAGE_CRYPTO_ITEM_RENDER;
+  const { data, isFetching } = useGetCoinsQuery(cryptoItemRender);
   // using optional chaining to avoiding undefined
   const coinsStats = data?.data?.stats;
 

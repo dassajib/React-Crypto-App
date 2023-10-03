@@ -39,8 +39,10 @@ const styles = {
 };
 
 const CryptoCoins = ({ simplified }) => {
-  
-  const { data, isFetching } = useGetCoinsQuery();
+  // only top 10 coins details will show in home page
+  // this is why we pass props called simplified in home.jsx
+  const count = simplified ? 10 : 100;
+  const { data, isFetching } = useGetCoinsQuery(count);
   // using optional chaining to avoiding undefined
   const allCoins = data?.data?.coins;
 
