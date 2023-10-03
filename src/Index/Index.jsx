@@ -17,7 +17,7 @@ const Index = () => {
           <Route exact path="/" element={<Home />} />
           <Route exact path="/home" element={<Home />} />
           <Route exact path="/crypto-coins" element={<CryptoCoins />} />
-          <Route exact path="/crypto-coins/:coinId" element={<CoinDetails />} />
+          <Route exact path="/crypto-coins/:coinName" element={<CoinDetails />} />
           <Route exact path="/exchanges" element={<Exchanges />} />
           <Route exact path="/news" element={<News />} />
           <Route exact path="*" element={<NotFound />} />

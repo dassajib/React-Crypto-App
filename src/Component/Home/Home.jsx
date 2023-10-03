@@ -2,9 +2,12 @@ import { Container, Grid, Typography } from "@mui/material";
 import React from "react";
 import { useGetCoinsQuery } from "../../Services/cryptoApi";
 import millify from "millify";
+import CryptoCoins from "../CryptoCoins/CryptoCoins";
+import News from "../News/News";
 
 const Home = () => {
   const { data, isFetching } = useGetCoinsQuery();
+  // using optional chaining to avoiding undefined
   const coinsStats = data?.data?.stats;
 
   if (isFetching) return <Typography variant="h1">Loading...</Typography>;
@@ -29,7 +32,7 @@ const Home = () => {
                 Total Crypto Currencies
               </Typography>
               <Typography variant="h5">
-                {millify(coinsStats.totalCoins)} ({coinsStats.totalCoins})
+                {millify(coinsStats.totalCoins)}
               </Typography>
             </Grid>
             <Grid item xs={12} md={4} sm={3}>
@@ -94,6 +97,9 @@ const Home = () => {
             </Grid>
           </Grid>
         </Container>
+        {/* here passes props simplified for conditional purpose and by default it is true */}
+        <CryptoCoins simplified />
+        <News simplified />
       </Container>
     </>
   );
