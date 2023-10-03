@@ -6,9 +6,10 @@ import {
   Container,
   Grid,
   Stack,
+  TextField,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useGetCoinsQuery } from "../../Services/cryptoApi";
 import millify from "millify";
@@ -42,9 +43,20 @@ const CryptoCoins = ({ simplified }) => {
   // only top 10 coins details will show in home page
   // this is why we pass props called simplified in home.jsx
   const count = simplified ? 10 : 100;
-  const { data, isFetching } = useGetCoinsQuery(count);
+  // reserve data in cryptoList
+  const { data: cryptoList, isFetching } = useGetCoinsQuery(count);
+
   // using optional chaining to avoiding undefined
-  const allCoins = data?.data?.coins;
+  const [cryptoCoins, setCryptoCoins] = useState(cryptoList?.data?.coins);
+  const [searchCoin, setSearchCoin] = useState("");
+
+  // filter functionality
+  useEffect(() => {
+    const filterCoin = cryptoList?.data.coins.filter((coin) =>
+      coin.name.toLowerCase().includes(searchCoin.toLowerCase())
+    );
+    setCryptoCoins(filterCoin);
+  }, [cryptoList, searchCoin]);
 
   if (isFetching) return <Typography variant="h1">Loading...</Typography>;
 
@@ -63,12 +75,23 @@ const CryptoCoins = ({ simplified }) => {
             <Typography variant="h6">Show All</Typography>
           </Link>
         </Stack>
+        {/* search field will not be show in home page */}
+        {!simplified && (
+          <TextField
+            onChange={(e) => {
+              setSearchCoin(e.target.value);
+            }}
+            id="outlined-basic"
+            label="Search Coin"
+            variant="outlined"
+          />
+        )}
         <Grid
           container
           spacing={{ xs: 2, md: 3 }}
           columns={{ xs: 4, sm: 8, md: 12 }}
         >
-          {allCoins?.map((coin) => (
+          {cryptoCoins?.map((coin) => (
             <Grid item xs={2} sm={4} md={3} key={coin.uuid}>
               <Link to={`crypto-coins/${coin.name}`} style={styles.content}>
                 <Card style={styles.card}>
